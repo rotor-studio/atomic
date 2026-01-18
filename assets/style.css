@@ -1,0 +1,296 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  --background: #f8f7f4;
+  --foreground: #1f1f1f;
+  --muted: #6e6e6e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: linear-gradient(
+    120deg,
+    #ffe8d9,
+    #f7e9ff,
+    #dbeeff,
+    #dff7e9,
+    #fff0d8,
+    #fce9f1,
+    #d9f4ff
+  );
+  background-size: 600% 600%;
+  animation: sky-drift 240s ease-in-out infinite;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+  font-size: 17px;
+}
+
+@keyframes sky-drift {
+  0% {
+    background-position: 0% 40%;
+  }
+  25% {
+    background-position: 40% 60%;
+  }
+  50% {
+    background-position: 100% 40%;
+  }
+  75% {
+    background-position: 60% 60%;
+  }
+  100% {
+    background-position: 0% 40%;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.link {
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+  letter-spacing: 0.04em;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.nav a:hover {
+  color: var(--foreground);
+}
+
+.title {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.label {
+  letter-spacing: 0.02em;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.compact {
+  gap: 6px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: 0.02em;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--foreground);
+}
+
+input,
+textarea,
+select {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  font: inherit;
+  color: var(--foreground);
+  width: 100%;
+}
+
+.input {
+  padding: 4px 0;
+}
+
+.dot {
+  font-size: 22px;
+  color: var(--muted);
+}
+
+.footer {
+  letter-spacing: 0.02em;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
+  padding: 20px 24px;
+  backdrop-filter: blur(8px);
+}
+
+.panel.compact {
+  padding: 14px 18px;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field input {
+  padding: 2px 0;
+}
+
+.toggle-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.toggle-option {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-option input {
+  width: 18px;
+  height: 18px;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.42);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section.collapsed .section-body {
+  display: none;
+}
+
+.section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.chevron {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
+}
+
+.button-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.primary-action {
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px 64px;
+  }
+
+  .nav {
+    font-size: 14px;
+    gap: 16px;
+  }
+
+  .panel {
+    padding: 14px 16px;
+  }
+
+  .toggle-group {
+    grid-template-columns: 1fr;
+  }
+}
+.section {
+  background: rgba(255, 255, 255, 0.42);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
+}

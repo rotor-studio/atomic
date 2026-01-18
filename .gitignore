@@ -1,0 +1,4 @@
+/data/app.sqlite
+.DS_Store
+/uploads/*
+!/uploads/.gitkeep
