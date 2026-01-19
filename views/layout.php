@@ -40,7 +40,8 @@ unset($_SESSION['flash']);
     <?php if ($user): ?>
       <div class="footer">
         <a href="<?php echo e(url('ajustes')); ?>">ajustes</a> ·
-        creado por <a href="https://romantorre.net" target="_blank" rel="noopener">romantorre.net</a> 2026
+        <a href="https://github.com/rotor-studio/atomic" target="_blank" rel="noopener">github</a> ·
+        <a href="https://romantorre.net" target="_blank" rel="noopener">romantorre.net</a> 2026
       </div>
     <?php endif; ?>
   </div>

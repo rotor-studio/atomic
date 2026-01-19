@@ -87,6 +87,86 @@ a.link {
   font-weight: 700;
 }
 
+.habit-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: lowercase;
+}
+
+.habit-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.habit-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.habit-meta {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.habit-week-title {
+  text-transform: lowercase;
+  margin-bottom: 6px;
+}
+
+.week-meta {
+  margin-bottom: 6px;
+}
+
+.week-total {
+  margin: 0;
+}
+
+.habit-month-title {
+  text-transform: lowercase;
+  margin-bottom: 6px;
+}
+
+.month-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.week-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.habit-details {
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.habit-details .btn {
+  font-size: 13px;
+}
+
+.habit-details input {
+  font-size: 14px;
+}
+
+.habit-detail-lines {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.detail-label {
+  font-weight: 700;
+  color: var(--foreground);
+}
+
 .muted {
   color: var(--muted);
   font-size: 15px;
@@ -97,6 +177,51 @@ a.link {
   font-size: 13px;
   font-weight: 600;
   color: var(--muted);
+}
+
+.label.light {
+  font-weight: 400;
+}
+
+.section-title {
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.section-title.big {
+  font-size: 14px;
+}
+
+.settings-top {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.note-label {
+  margin-top: 0;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.note-field {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-height: 56px;
+  resize: vertical;
+  margin-top: 0;
+}
+
+.note-stack {
+  gap: 1px;
+}
+
+.habit-detail-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .stack {
@@ -156,6 +281,10 @@ select {
   color: var(--muted);
 }
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
 .footer {
   letter-spacing: 0.02em;
   font-size: 13px;
@@ -180,6 +309,10 @@ select {
   gap: 14px;
 }
 
+.admin-form {
+  gap: 8px;
+}
+
 .field {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 12px;
@@ -187,6 +320,10 @@ select {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.note-field {
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .field input {
@@ -250,6 +387,19 @@ select {
   display: flex;
   gap: 16px;
   align-items: center;
+}
+
+.habit-actions {
+  margin-bottom: 12px;
+}
+
+.button-row.split {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.button-row.right {
+  margin-left: auto;
 }
 
 .primary-action {

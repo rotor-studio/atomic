@@ -1,25 +1,22 @@
 <div class="stack">
   <div class="stack panel">
-    <div class="label">ajustes</div>
-    <div class="title">cuenta</div>
+    <div class="label settings-top">ajustes</div>
   </div>
 
   <div class="stack panel">
-    <div class="label">mi perfil</div>
-
     <form class="stack" method="post" action="<?php echo e(url('ajustes/password')); ?>">
       <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
-      <div class="label">cambiar contrasena</div>
+      <div class="label section-title big">cambiar contrasena</div>
       <label class="field">
-        <span class="label">contrasena actual</span>
+        <span class="label light">contrasena actual</span>
         <input class="input" type="password" name="current_password" minlength="8" required>
       </label>
       <label class="field">
-        <span class="label">nueva contrasena</span>
+        <span class="label light">nueva contrasena</span>
         <input class="input" type="password" name="new_password" minlength="8" required>
       </label>
       <label class="field">
-        <span class="label">confirmar contrasena</span>
+        <span class="label light">confirmar contrasena</span>
         <input class="input" type="password" name="confirm_password" minlength="8" required>
       </label>
       <button class="btn primary-action" type="submit">guardar contrasena</button>
@@ -27,7 +24,7 @@
 
     <form class="stack" method="post" action="<?php echo e(url('ajustes/avatar')); ?>" enctype="multipart/form-data">
       <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
-      <div class="label">avatar</div>
+      <div class="label section-title big">avatar</div>
       <label class="field">
         <span class="label">imagen</span>
         <input class="input" type="file" name="avatar" accept="image/png,image/jpeg,image/webp" required>
@@ -53,11 +50,11 @@
 
     <?php if (!empty($user['is_superuser'])): ?>
       <div class="stack panel">
-        <div class="label">administracion del sistema</div>
+        <div class="label section-title big">administracion del sistema</div>
 
-      <form class="stack panel" method="post" action="<?php echo e(url('ajustes/create-user')); ?>">
+      <form class="stack panel admin-form" method="post" action="<?php echo e(url('ajustes/create-user')); ?>">
           <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
-          <div class="label">crear usuario</div>
+          <div class="label section-title big">crear usuario</div>
           <label class="field">
             <span class="label">correo</span>
             <input class="input" type="email" name="email" required>
@@ -79,7 +76,7 @@
         $users = $stmt->fetchAll();
       ?>
         <div class="stack">
-          <div class="label">usuarios</div>
+          <div class="label section-title big">usuarios</div>
           <?php foreach ($users as $row): ?>
           <form class="toggle-option" method="post" action="<?php echo e(url('ajustes/role')); ?>">
               <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">

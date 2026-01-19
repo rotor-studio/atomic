@@ -105,7 +105,16 @@ $habit = $habit ?: [
     <div class="button-row">
       <button class="btn primary-action" type="submit"><?php echo $isEdit ? 'guardar cambios' : 'crear habito'; ?></button>
       <a class="btn" href="<?php echo e(url('habitos')); ?>">volver a habitos</a>
+      <?php if ($isEdit): ?>
+        <button class="btn" type="submit" form="delete-habit">borrar</button>
+      <?php endif; ?>
     </div>
   </form>
+  <?php if ($isEdit): ?>
+    <form id="delete-habit" method="post" action="<?php echo e(url('habitos/borrar')); ?>" onsubmit="return confirm('borrar habito?');">
+      <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
+      <input type="hidden" name="id" value="<?php echo e($habit['id']); ?>">
+    </form>
+  <?php endif; ?>
   <script src="<?php echo e(url('assets/form.js')); ?>"></script>
 </div>

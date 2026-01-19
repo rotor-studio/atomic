@@ -23,10 +23,14 @@
       $currentScore = weighted_completion($currentValues);
       $previousScore = weighted_completion($previousValues);
       $trend = trend_label($previousScore, $currentScore);
+      $emoji = $currentScore >= 0.75 ? '🙂' : ($currentScore >= 0.4 ? '😐' : '😕');
     ?>
-    <div class="stack panel">
-      <div class="title" style="font-size:18px;"><?php echo e($habit['name']); ?></div>
-      <div class="muted"><?php echo number_format($currentScore * 100, 0); ?>% consistencia · <?php echo e($trend); ?></div>
+    <div class="panel month-card">
+      <div>
+        <div class="title habit-month-title" style="font-size:18px;"><?php echo e($habit['name']); ?></div>
+        <div class="muted"><?php echo number_format($currentScore * 100, 0); ?>% consistencia · <?php echo e($trend); ?></div>
+      </div>
+      <div class="dot"><?php echo $emoji; ?></div>
     </div>
   <?php endforeach; ?>
 </div>
