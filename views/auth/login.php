@@ -4,7 +4,7 @@
     <div class="title">iniciar sesion</div>
     <div class="muted">espacio silencioso para sistemas pequenos.</div>
   </div>
-  <form class="stack panel" method="post" action="/login">
+  <form class="stack panel" method="post" action="<?php echo e(url('login')); ?>">
     <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
     <label class="stack">
       <span class="label">correo</span>
@@ -17,6 +17,6 @@
     <button class="btn" type="submit">entrar</button>
   </form>
   <div class="muted">
-    nuevo por aqui? <a href="/registro">crear cuenta</a>.
+    nuevo por aqui? <a href="<?php echo e(url('registro')); ?>">crear cuenta</a>.
   </div>
 </div>

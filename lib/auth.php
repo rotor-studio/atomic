@@ -16,7 +16,7 @@ function current_user()
 function require_login()
 {
     if (!current_user()) {
-        header('Location: /login');
+        header('Location: ' . url('login'));
         exit;
     }
 }

@@ -20,7 +20,7 @@ $habit = $habit ?: [
     <div class="title"><?php echo $isEdit ? e($habit['name']) : 'anadir habito'; ?></div>
   </div>
 
-  <form class="stack panel form-card" method="post" action="/habitos/guardar">
+  <form class="stack panel form-card" method="post" action="<?php echo e(url('habitos/guardar')); ?>">
     <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
     <input type="hidden" name="id" value="<?php echo e($habit['id']); ?>">
 
@@ -104,8 +104,8 @@ $habit = $habit ?: [
 
     <div class="button-row">
       <button class="btn primary-action" type="submit"><?php echo $isEdit ? 'guardar cambios' : 'crear habito'; ?></button>
-      <a class="btn" href="/habitos">volver a habitos</a>
+      <a class="btn" href="<?php echo e(url('habitos')); ?>">volver a habitos</a>
     </div>
   </form>
-  <script src="/assets/form.js"></script>
+  <script src="<?php echo e(url('assets/form.js')); ?>"></script>
 </div>

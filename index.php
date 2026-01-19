@@ -16,9 +16,15 @@ require_once __DIR__ . '/lib/helpers.php';
 require_once __DIR__ . '/lib/suggestions.php';
 require_once __DIR__ . '/lib/rate_limit.php';
 
-$path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+$base_path = $scriptDir === '/' ? '' : $scriptDir;
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+if ($base_path && strpos($path, $base_path) === 0) {
+    $path = substr($path, strlen($base_path));
+}
+$path = trim($path, '/');
 if ($path === '') {
-    header('Location: /hoy');
+    header('Location: ' . url('hoy'));
     exit;
 }
 
@@ -34,7 +40,7 @@ switch ($path) {
         render('auth/register');
         break;
     case 'logout':
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     case 'hoy':
         require_login();
@@ -60,7 +66,7 @@ switch ($path) {
         require_login();
         $habit = get_habit((int) ($_GET['id'] ?? 0));
         if (!$habit) {
-            header('Location: /habitos');
+            header('Location: ' . url(''));
             exit;
         }
         render('habit_form', ['mode' => 'edit', 'habit' => $habit]);
@@ -99,7 +105,7 @@ function handle_post($path)
             break;
         case 'logout':
             logout_user();
-            header('Location: /login');
+            header('Location: ' . url(''));
             exit;
         case 'habitos/guardar':
             require_login();
@@ -160,7 +166,7 @@ function handle_login()
 
     if (!rate_limit_check($ip)) {
         $_SESSION['flash'] = 'demasiados intentos. espera unos minutos.';
-        header('Location: /login');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -171,13 +177,13 @@ function handle_login()
     if (!$user || !password_verify($password, $user['password_hash'])) {
         rate_limit_fail($ip);
         $_SESSION['flash'] = 'Correo o contrasena incorrectos.';
-        header('Location: /login');
+        header('Location: ' . url(''));
         exit;
     }
 
     rate_limit_success($ip);
     login_user($user['id']);
-    header('Location: /hoy');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -188,7 +194,7 @@ function handle_register()
 
     if (!$email || !$password || strlen($password) < 8) {
         $_SESSION['flash'] = 'Datos no validos.';
-        header('Location: /registro');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -196,7 +202,7 @@ function handle_register()
     $stmt->execute([':email' => $email]);
     if ($stmt->fetch()) {
         $_SESSION['flash'] = 'No se pudo crear la cuenta.';
-        header('Location: /registro');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -208,7 +214,7 @@ function handle_register()
     ]);
 
     login_user((int) db()->lastInsertId());
-    header('Location: /hoy');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -439,7 +445,7 @@ function save_habit()
         ]);
     }
 
-    header('Location: /habitos');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -449,7 +455,7 @@ function delete_habit()
     $id = (int) ($_POST['id'] ?? 0);
     $stmt = db()->prepare('DELETE FROM habits WHERE id = :id AND user_id = :user_id');
     $stmt->execute([':id' => $id, ':user_id' => $user['id']]);
-    header('Location: /habitos');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -464,14 +470,14 @@ function toggle_habit()
         $stmt->execute([':user_id' => $user['id'], ':id' => $id]);
         if ((int) $stmt->fetchColumn() >= 3) {
             $_SESSION['flash'] = 'Solo puedes tener hasta 3 habitos activos.';
-            header('Location: /habitos');
+            header('Location: ' . url(''));
             exit;
         }
     }
 
     $stmt = db()->prepare('UPDATE habits SET is_active = :active WHERE id = :id AND user_id = :user_id');
     $stmt->execute([':active' => $isActive, ':id' => $id, ':user_id' => $user['id']]);
-    header('Location: /habitos');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -486,7 +492,7 @@ function save_entry()
     $stmt = db()->prepare('SELECT id FROM habits WHERE id = :id AND user_id = :user_id');
     $stmt->execute([':id' => $habitId, ':user_id' => $user['id']]);
     if (!$stmt->fetch()) {
-        header('Location: /hoy');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -503,7 +509,7 @@ function save_entry()
         ':note' => $note,
     ]);
 
-    header('Location: /hoy');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -512,7 +518,7 @@ function reset_account()
     $user = current_user();
     $stmt = db()->prepare('DELETE FROM habits WHERE user_id = :user_id');
     $stmt->execute([':user_id' => $user['id']]);
-    header('Location: /hoy');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -522,7 +528,7 @@ function delete_account()
     $stmt = db()->prepare('DELETE FROM users WHERE id = :id');
     $stmt->execute([':id' => $user['id']]);
     logout_user();
-    header('Location: /login');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -535,7 +541,7 @@ function change_password()
 
     if (!$current || !$new || strlen($new) < 8 || $new !== $confirm) {
         $_SESSION['flash'] = 'contrasena invalida.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -545,7 +551,7 @@ function change_password()
 
     if (!$row || !password_verify($current, $row['password_hash'])) {
         $_SESSION['flash'] = 'contrasena actual incorrecta.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -556,7 +562,7 @@ function change_password()
     ]);
 
     $_SESSION['flash'] = 'contrasena actualizada.';
-    header('Location: /ajustes');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -565,7 +571,7 @@ function update_role()
     $user = current_user();
     if (!$user['is_superuser']) {
         $_SESSION['flash'] = 'no autorizado.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -574,7 +580,7 @@ function update_role()
 
     if ($targetId === (int) $user['id'] && $isSuper === 0) {
         $_SESSION['flash'] = 'no puedes quitar tu propio rol de admin.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -582,7 +588,7 @@ function update_role()
     $stmt->execute([':role' => $isSuper, ':id' => $targetId]);
 
     $_SESSION['flash'] = 'rol actualizado.';
-    header('Location: /ajustes');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -591,14 +597,14 @@ function delete_user()
     $user = current_user();
     if (!$user['is_superuser']) {
         $_SESSION['flash'] = 'no autorizado.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
     $targetId = (int) ($_POST['user_id'] ?? 0);
     if ($targetId === (int) $user['id']) {
         $_SESSION['flash'] = 'no puedes borrar tu propia cuenta desde aqui.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -606,7 +612,7 @@ function delete_user()
     $stmt->execute([':id' => $targetId]);
 
     $_SESSION['flash'] = 'usuario borrado.';
-    header('Location: /ajustes');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -615,7 +621,7 @@ function create_user()
     $user = current_user();
     if (!$user['is_superuser']) {
         $_SESSION['flash'] = 'no autorizado.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -625,7 +631,7 @@ function create_user()
 
     if (!$email || strlen($password) < 8) {
         $_SESSION['flash'] = 'datos no validos.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -633,7 +639,7 @@ function create_user()
     $stmt->execute([':email' => $email]);
     if ($stmt->fetch()) {
         $_SESSION['flash'] = 'el correo ya existe.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -649,7 +655,7 @@ function create_user()
     ]);
 
     $_SESSION['flash'] = 'usuario creado.';
-    header('Location: /ajustes');
+    header('Location: ' . url(''));
     exit;
 }
 
@@ -658,7 +664,7 @@ function reset_user_password()
     $user = current_user();
     if (!$user['is_superuser']) {
         $_SESSION['flash'] = 'no autorizado.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -667,13 +673,13 @@ function reset_user_password()
 
     if ($targetId === (int) $user['id']) {
         $_SESSION['flash'] = 'usa el cambio de contrasena de tu perfil.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
     if (strlen($new) < 8) {
         $_SESSION['flash'] = 'contrasena invalida.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -684,7 +690,7 @@ function reset_user_password()
     ]);
 
     $_SESSION['flash'] = 'contrasena reiniciada.';
-    header('Location: /ajustes');
+    header('Location: ' . url(''));
     exit;
 }
 function upload_avatar()
@@ -692,26 +698,26 @@ function upload_avatar()
     $user = current_user();
     if (!isset($_FILES['avatar']) || $_FILES['avatar']['error'] !== UPLOAD_ERR_OK) {
         $_SESSION['flash'] = 'No se pudo subir la imagen.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
     $file = $_FILES['avatar'];
     if ($file['size'] > 2 * 1024 * 1024) {
         $_SESSION['flash'] = 'imagen demasiado grande.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
     $info = getimagesize($file['tmp_name']);
     if (!$info) {
         $_SESSION['flash'] = 'Archivo invalido.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
     if ($info[0] > 2000 || $info[1] > 2000) {
         $_SESSION['flash'] = 'imagen demasiado grande.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -723,7 +729,7 @@ function upload_avatar()
     ];
     if (!isset($allowed[$mime])) {
         $_SESSION['flash'] = 'Formato no permitido.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
@@ -737,17 +743,17 @@ function upload_avatar()
 
     if (!move_uploaded_file($file['tmp_name'], $target)) {
         $_SESSION['flash'] = 'No se pudo guardar la imagen.';
-        header('Location: /ajustes');
+        header('Location: ' . url(''));
         exit;
     }
 
     $stmt = db()->prepare('UPDATE users SET avatar_path = :path WHERE id = :id');
     $stmt->execute([
-        ':path' => '/uploads/' . $name,
+        ':path' => 'uploads/' . $name,
         ':id' => $user['id'],
     ]);
 
     $_SESSION['flash'] = 'Avatar actualizado.';
-    header('Location: /ajustes');
+    header('Location: ' . url(''));
     exit;
 }

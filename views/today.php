@@ -35,7 +35,7 @@
           <?php echo $habit['frequency_type'] === 'DAILY' ? 'diario' : e($habit['frequency_target']) . '/semana'; ?>
         </div>
       </div>
-      <form class="row" method="post" action="/entrada/guardar">
+      <form class="row" method="post" action="<?php echo e(url('entrada/guardar')); ?>">
         <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
         <input type="hidden" name="habit_id" value="<?php echo e($habit['id']); ?>">
         <input type="hidden" name="entry_date" value="<?php echo e($date); ?>">
@@ -47,7 +47,7 @@
         2 minutos: <?php echo e($habit['two_minute_version']); ?><br>
         plan b: <?php echo e($habit['plan_b']); ?>
       </div>
-      <form class="stack" method="post" action="/entrada/guardar">
+      <form class="stack" method="post" action="<?php echo e(url('entrada/guardar')); ?>">
         <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
         <input type="hidden" name="habit_id" value="<?php echo e($habit['id']); ?>">
         <input type="hidden" name="entry_date" value="<?php echo e($date); ?>">

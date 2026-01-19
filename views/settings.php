@@ -7,7 +7,7 @@
   <div class="stack panel">
     <div class="label">mi perfil</div>
 
-    <form class="stack" method="post" action="/ajustes/password">
+    <form class="stack" method="post" action="<?php echo e(url('ajustes/password')); ?>">
       <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
       <div class="label">cambiar contrasena</div>
       <label class="field">
@@ -25,7 +25,7 @@
       <button class="btn primary-action" type="submit">guardar contrasena</button>
     </form>
 
-    <form class="stack" method="post" action="/ajustes/avatar" enctype="multipart/form-data">
+    <form class="stack" method="post" action="<?php echo e(url('ajustes/avatar')); ?>" enctype="multipart/form-data">
       <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
       <div class="label">avatar</div>
       <label class="field">
@@ -36,15 +36,15 @@
     </form>
 
     <div class="button-row">
-      <form method="post" action="/logout">
+      <form method="post" action="<?php echo e(url('logout')); ?>">
         <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
         <button class="btn" type="submit">cerrar sesion</button>
       </form>
-      <form method="post" action="/ajustes/reset">
+      <form method="post" action="<?php echo e(url('ajustes/reset')); ?>">
         <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
         <button class="btn" type="submit">resetear datos</button>
       </form>
-      <form method="post" action="/ajustes/borrar">
+      <form method="post" action="<?php echo e(url('ajustes/borrar')); ?>">
         <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
         <button class="btn" type="submit">borrar cuenta</button>
       </form>
@@ -55,7 +55,7 @@
       <div class="stack panel">
         <div class="label">administracion del sistema</div>
 
-        <form class="stack panel" method="post" action="/ajustes/create-user">
+      <form class="stack panel" method="post" action="<?php echo e(url('ajustes/create-user')); ?>">
           <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
           <div class="label">crear usuario</div>
           <label class="field">
@@ -81,7 +81,7 @@
         <div class="stack">
           <div class="label">usuarios</div>
           <?php foreach ($users as $row): ?>
-            <form class="toggle-option" method="post" action="/ajustes/role">
+          <form class="toggle-option" method="post" action="<?php echo e(url('ajustes/role')); ?>">
               <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
               <input type="hidden" name="user_id" value="<?php echo e($row['id']); ?>">
               <div class="muted"><?php echo e($row['email']); ?></div>
@@ -94,7 +94,7 @@
               <button class="btn" type="submit" <?php echo (int) $row['id'] === (int) $user['id'] ? 'disabled' : ''; ?>>guardar</button>
             </form>
             <?php if ((int) $row['id'] !== (int) $user['id']): ?>
-              <form class="toggle-option" method="post" action="/ajustes/user-password">
+            <form class="toggle-option" method="post" action="<?php echo e(url('ajustes/user-password')); ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
                 <input type="hidden" name="user_id" value="<?php echo e($row['id']); ?>">
                 <label class="field" style="margin:0;">
@@ -105,7 +105,7 @@
               </form>
             <?php endif; ?>
             <?php if ((int) $row['id'] !== (int) $user['id']): ?>
-              <form class="toggle-option" method="post" action="/ajustes/user-delete" onsubmit="return confirm('borrar usuario?');">
+            <form class="toggle-option" method="post" action="<?php echo e(url('ajustes/user-delete')); ?>" onsubmit="return confirm('borrar usuario?');">
                 <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
                 <input type="hidden" name="user_id" value="<?php echo e($row['id']); ?>">
                 <div class="muted">borrar usuario</div>

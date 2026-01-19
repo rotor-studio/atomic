@@ -4,7 +4,7 @@
     <div class="title">crear cuenta</div>
     <div class="muted">seguimiento privado sin ruido social.</div>
   </div>
-  <form class="stack panel" method="post" action="/registro">
+  <form class="stack panel" method="post" action="<?php echo e(url('registro')); ?>">
     <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>">
     <label class="stack">
       <span class="label">correo</span>
@@ -17,6 +17,6 @@
     <button class="btn" type="submit">crear cuenta</button>
   </form>
   <div class="muted">
-    ya tienes cuenta? <a href="/login">iniciar sesion</a>.
+    ya tienes cuenta? <a href="<?php echo e(url('login')); ?>">iniciar sesion</a>.
   </div>
 </div>

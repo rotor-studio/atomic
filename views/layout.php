@@ -8,23 +8,23 @@ unset($_SESSION['flash']);
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Atomic</title>
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="<?php echo e(url('assets/style.css')); ?>">
 </head>
 <body>
   <div class="container">
     <?php if ($user): ?>
       <div class="nav">
         <div class="row">
-          <a href="/hoy">hoy</a>
-          <a href="/semana">semana</a>
-          <a href="/mes">mes</a>
-          <a href="/guia">guia</a>
+          <a href="<?php echo e(url('hoy')); ?>">hoy</a>
+          <a href="<?php echo e(url('semana')); ?>">semana</a>
+          <a href="<?php echo e(url('mes')); ?>">mes</a>
+          <a href="<?php echo e(url('guia')); ?>">guia</a>
         </div>
         <div class="row">
           <?php if (!empty($user['avatar_path'])): ?>
-            <img class="avatar" src="<?php echo e($user['avatar_path']); ?>" alt="Avatar">
+            <img class="avatar" src="<?php echo e(url(ltrim($user['avatar_path'], '/'))); ?>" alt="avatar">
           <?php endif; ?>
-          <a href="/habitos/nuevo">+ anadir habito</a>
+          <a href="<?php echo e(url('habitos/nuevo')); ?>">+ anadir habito</a>
         </div>
       </div>
     <?php endif; ?>
@@ -39,7 +39,7 @@ unset($_SESSION['flash']);
 
     <?php if ($user): ?>
       <div class="footer">
-        <a href="/ajustes">ajustes</a> ·
+        <a href="<?php echo e(url('ajustes')); ?>">ajustes</a> ·
         creado por <a href="https://romantorre.net" target="_blank" rel="noopener">romantorre.net</a> 2026
       </div>
     <?php endif; ?>

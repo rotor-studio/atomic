@@ -6,6 +6,7 @@
 - `views/`: vistas HTML.
 - `assets/`: estilos.
 - `data/`: SQLite local.
+- `uploads/`: avatares.
 
 ## Running Locally
 - PHP built-in server: `php -S localhost:8000`
@@ -20,3 +21,4 @@
 - Maximo 3 habitos activos.
 - Parcial cuenta como 0.5.
 - Sin rachas infinitas.
+- Admin solo visible para superusuario.
